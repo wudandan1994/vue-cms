@@ -26,8 +26,6 @@ export default {
         getnewsInfo(){
              this.axios.get("http://vue.lovegf.cn:8899/api/getnew/"+this.id)
             .then(res=>{
-                console.log(res);
-                
               this.newsInfo=res.data.message[0]               
             })
         }

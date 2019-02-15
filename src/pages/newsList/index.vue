@@ -30,8 +30,6 @@ export default {
         getnewsList(){
             this.axios.get("http://vue.lovegf.cn:8899/api/getnewslist")
             .then(res=>{
-               
-                // console.log(res);
                 this.newsList=res.data.message
                
             })
