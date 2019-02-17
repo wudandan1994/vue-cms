@@ -32,14 +32,12 @@ export default {
         }
     },
     created(){
-        this.getComments();
-        // console.log(this.id);        
+        this.getComments();       
     },
     methods:{
         getComments () {
             this.axios.get("http://vue.lovegf.cn:8899/api/getcomments/"+this.id+"?pageindex="+this.pageindex)
             .then(res=>{ 
-            //    console.log(res); 
             this.comments=this.comments.concat(res.data.message);
             })
         },
@@ -52,7 +50,6 @@ export default {
             // 发表品论的功能
             this.axios.post("http://vue.lovegf.cn:8899/api/postcomment/"+this.id,{content:this.content})
             .then(res=>{ 
-            //    console.log(res); 
                 if(res.data.status===0){
                     Toast(res.data.message)
                     this.pageindex=1;
