@@ -1,11 +1,11 @@
 <template>  
      <div class="goods-info">
-                     <transition >
-                            <span class="ball" ref="ball" v-show="showflag"
-                            @before-enter="beforeEnter"
-                            @enter="enter"
-                            @after-enter="afterEnter"
-                             ></span>
+                     <transition
+                     @before-enter="beforeEnter"
+                    @enter="enter"
+                    @after-enter="afterEnter"
+                      >
+                            <span class="ball" ref="ball" v-show="showflag"></span>
                      </transition>
 
             <div class="mui-card"> 
@@ -89,25 +89,21 @@ export default {
       },
       enter(el,done){
           el.offsetWidth;
-          console.log(el);
           // 获取小球在页面中的位置
           const ballPosition=this.$refs.ball.getBoundingClientRect();
-          console.log(ballPosition);
-        
+         
           
         // 获取徽标在页面中的位置
             const badgePosition=document.getElementById("badge").getBoundingClientRect();
             const xDist=badgePosition.left-ballPosition.left;
-            const yDist=badgePosition.top-ballPosition.top;
-            
+            const yDist=badgePosition.top-ballPosition.top;  
             
             el.style.transform=`translate(${xDist}px,${yDist}px)`;
-            el.style.transition="all 200s cubic-bezier(.4,-0.3,1,.68)"
+            el.style.transition="all 1s cubic-bezier(.4,-0.3,1,.68)"
             done()
       },
       afterEnter(el){
           this.showflag=!this.showflag
-        
       },
      pinIntroduce(){
          this.$router.push("/home/picIntroduce/"+this.id)
