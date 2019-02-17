@@ -5,7 +5,7 @@
     <mt-header fixed title="顶部·VUE"></mt-header>
 
     <!-- 中间组件切换 -->
-    <transition>
+    <transition name="changeComponent">
 			<router-view/>
 		</transition>
 
@@ -24,7 +24,7 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link class="mui-tab-item1"  to="/shopcar">
-        	<span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">9</span></span>
+        	<span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge" id="badge">9</span></span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link class="mui-tab-item1"  to="/search">
@@ -72,17 +72,17 @@ html {
     text-overflow: ellipsis;
     color: #929292;
 }
-.v-enter {
+.changeComponent-enter {
 	opacity: 0;
 	transform: translateX(100%);
 }
-.v-leave-to {
+.changeComponent-leave-to {
 	opacity: 0;
 	transform: translateX(-100%);
 	position: absolute;
 }
-.v-enter-active,
-.v-leave-active {
+.changeComponent-enter-active,
+.changeComponent-leave-active {
 	transition: all 0.5s ease;
 }
 

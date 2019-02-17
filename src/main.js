@@ -21,6 +21,9 @@ import comments from './components/comments.vue'
 // 注册全局组件
 Vue.component("comments",comments)
 
+// 引入缩略图的插件
+import VuePreview from 'vue-pic-preview'
+Vue.use(VuePreview)
 
 // 引入的css
 import './lib/mui/css/mui.css'

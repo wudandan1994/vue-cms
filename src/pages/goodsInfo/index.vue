@@ -1,6 +1,15 @@
-<template>
-  
-            <div class="mui-card">     
+<template>  
+     <div class="goods-info">
+                     <transition >
+                            <span class="ball" ref="ball" v-show="showflag"
+                            @before-enter="beforeEnter"
+                            @enter="enter"
+                            @after-enter="afterEnter"
+                             ></span>
+                     </transition>
+
+            <div class="mui-card"> 
+
                  <!-- 轮播图部分 -->               
 			    <div class="mui-card-header">                   
                    <mt-swipe class="swipe-box" :auto="4000">
@@ -27,8 +36,10 @@
                         </div>
                         <p class="buycar">
                             <mt-button type="primary" size="small">立即购买</mt-button>
-                            <mt-button type="danger" size="small">加入购物车</mt-button>
+                            <mt-button type="danger" @click="addToShopCar" size="small">加入购物车</mt-button>
+                            
                         </p>
+                       
 					</div>
 				</div>
 
@@ -43,15 +54,17 @@
                      </div>
                     <hr>
                     <div class="comments">
-                         <mt-button  type="primary"   plain size="large">图文介绍</mt-button>
-                        <mt-button class="goodscomments" type="danger" plain size="large">商品品论</mt-button>
+                         <mt-button  type="primary" @click="pinIntroduce"   plain size="large">图文介绍</mt-button>
+                        <mt-button class="goodscomments" @click="goodscomm" type="danger" plain size="large">商品品论</mt-button>
                     </div>
                 </div>
-
 			</div>
-
+        </div>
 </template>
 <script>
+
+// 引入品论组件
+
 export default {
   data() {
     return {
@@ -59,14 +72,49 @@ export default {
       goodsInfo: [],
       goodsPrice:{},
       buygoodsnum:1,
+      showflag:false
     };
   },
+  
   created() {
     this.getgoodsInfo();
     this.getgoodsPrice();
   },
   methods: {
-     
+      addToShopCar(){
+          this.showflag=!this.showflag
+      },
+      beforeEnter(el){
+         el.style.transform="translate(0,0)";
+      },
+      enter(el,done){
+          el.offsetWidth;
+          console.log(el);
+          // 获取小球在页面中的位置
+          const ballPosition=this.$refs.ball.getBoundingClientRect();
+          console.log(ballPosition);
+        
+          
+        // 获取徽标在页面中的位置
+            const badgePosition=document.getElementById("badge").getBoundingClientRect();
+            const xDist=badgePosition.left-ballPosition.left;
+            const yDist=badgePosition.top-ballPosition.top;
+            
+            
+            el.style.transform=`translate(${xDist}px,${yDist}px)`;
+            el.style.transition="all 200s cubic-bezier(.4,-0.3,1,.68)"
+            done()
+      },
+      afterEnter(el){
+          this.showflag=!this.showflag
+        
+      },
+     pinIntroduce(){
+         this.$router.push("/home/picIntroduce/"+this.id)
+     },
+    goodscomm(){
+        this.$router.push("/home/goodcomments/"+this.id)
+    },
     getgoodsInfo() {  // 获取轮播图图片
       // api/:imgid
       this.axios
@@ -92,10 +140,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.goods-info{
+    position: relative;
+
+.ball {
+      display: block;
+      width:20px;
+      height: 20px;
+      background-color: orange;
+      border-radius: 50%;
+      position: absolute;
+     top: 445px;
+     left: 165px;
+     z-index: 99;
+  }
 .mui-card {
   height: 100%;
   background-color: #fff;
 
+  .mui-card-content-inner {
+      position: relative;
+  }
    .swipe-box {
        width:100%;
        height: 300px;
@@ -138,8 +203,9 @@ export default {
   }
   .buycar {
       display: flex;
-      justify-content: flex-start;
+      justify-content: flex-start;      
   }
+  
 }
 .mui-card-footer {
     display: block;
@@ -155,5 +221,6 @@ export default {
              margin-top:20px;
         }
     }
+}
 }
 </style>
