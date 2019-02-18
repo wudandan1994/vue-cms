@@ -83,6 +83,20 @@ export default {
   methods: {
       addToShopCar(){
           this.showflag=!this.showflag
+          
+          // 将商品的相关数据储存起来:id,购买数量,商品价格,以及是否选中(默认是选中的状态)
+        let goodsObj={
+            id:this.id,
+            count:this.buygoodsnum,
+            selected:true,
+            goodsmoney:this.goodsPrice.sell_price
+        }
+        
+        this.$store.commit("getCarCount",goodsObj)
+       
+        
+        
+
       },
       beforeEnter(el){
          el.style.transform="translate(0,0)";
@@ -99,7 +113,7 @@ export default {
             const yDist=badgePosition.top-ballPosition.top;  
             
             el.style.transform=`translate(${xDist}px,${yDist}px)`;
-            el.style.transition="all 1s cubic-bezier(.4,-0.3,1,.68)"
+            el.style.transition="all .5s cubic-bezier(.4,-0.3,1,.68)"
             done()
       },
       afterEnter(el){
@@ -121,13 +135,15 @@ export default {
           }
         });
     },
-         getgoodsPrice(){  //获取商品参数区和价格，标题等数据
-         this.axios
-        .get("http://vue.lovegf.cn:8899/api/goods/getinfo/" + this.id)
-        .then(res => {
-            if (res.data.status === 0) {
-            this.goodsPrice = res.data.message[0];
-          }
+
+        getgoodsPrice(){  //获取商品参数区和价格，标题等数据
+        this.axios
+    .get("http://vue.lovegf.cn:8899/api/goods/getinfo/" + this.id)
+    .then(res => {
+        if (res.data.status === 0) {
+        this.goodsPrice = res.data.message[0];
+        
+        }
         });
    }
   },
