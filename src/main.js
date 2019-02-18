@@ -19,9 +19,11 @@ Vue.use(Vueaxios, axios)
 // 导入Vuex并注册
 import Vuex from 'vuex'
 Vue.use(Vuex)
+let car=JSON.parse(localStorage.getItem('car') || '[]')
+
 const store=new Vuex.Store({
   state:{
-    car:[]
+    car:car
   },
   mutations:{
     getCarCount(state,goodsInfo){
@@ -41,7 +43,7 @@ const store=new Vuex.Store({
 
 
 
-        
+
 
 
 
@@ -60,7 +62,7 @@ const store=new Vuex.Store({
         state.car[index].count+=goodsInfo.id
       }
 
-        
+       localStorage.setItem('car',JSON.stringify(state.car)) 
     }
   },
   getters:{}
